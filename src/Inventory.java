@@ -21,7 +21,7 @@ public class Inventory {
 	 */
 	public boolean contains(String item) {
 		for (Item i : inventory) {
-			if (i.title.equals(item)) { return true; }
+			if (i.title.toLowerCase().equals(item.toLowerCase())) { return true; }
 		}
 		return false;
 	}
@@ -41,36 +41,35 @@ public class Inventory {
 	 * Method to "pick up" an item in the adventure game
 	 */
 	public void pickUp(Item item) {
-		if (inventory.contains(item)) {
-			System.out.println("You've picked up " + item.title);
-			System.out.println(item.effect);
-			if (item.title.equals("Eliot's jacket")) {
-				System.out.println("There seems to be something in the pocket! Maybe if you use the jacket you can find out what it is.");
-			}
-		} else { System.out.println("You can't do that. Try something else."); }
+		System.out.println("You've picked up " + item.title);
+		System.out.println(item.effect);
+		if (item.title.equals("Eliot's jacket")) {
+			System.out.println("There seems to be something in the pocket! Maybe if you use the jacket you can find out what it is.");
+		}
 	}
 	
 	/**
 	 * Method to "talk to" an item or person in the adventure game
 	 */
-	public void talkTo(Item item) {
+	public boolean talkTo(Item item) {
 		if (inventory.contains(item)) {
 			if (item instanceof Person) { System.out.println(item.title + " says, " + "'" + item.effect + "'"); }
 			else { System.out.println("You've found " + item.title); }
+			return true;
 		}
-		else { System.out.println("That item is not in this room. Try something else."); }
+		else { 
+			return false;
+		}
 	}
 	
 	/** 
 	 * Method to "learn more" about an item or person in the adventure game
 	 */
 	public void more(Item item) {
-		if (inventory.contains(item)) {
-			if (item instanceof Person) { System.out.println(item.title + " says, " + item.more); }
-			else { System.out.println(item.more); }
-			System.out.println();
-			System.out.println("You've gained " + item.points + " points(s)!");
-		} else { System.out.println("You can't do that. Try something else."); }
+		if (item instanceof Person) { System.out.println(item.title + " says, " + item.more); }
+		else { System.out.println(item.more); }
+		System.out.println();
+		System.out.println("You've gained " + item.points + " points(s)!");
 	}
 	
 	

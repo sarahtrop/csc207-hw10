@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * Parser class that takes commands from the user in the TextAdventure game and interprets those commands
  * @author sarahtrop
@@ -9,17 +14,17 @@ public class Parser {
 	 * Parses commands provided by the player to determine what happens next in the game.
 	 * @param command	a string
 	 * @param player	a Player
+	 * @throws FileNotFoundException 
 	 */
-	public static void parseCommands(String command, Player player) {
+	public static void parseCommands(String command, Player player) throws FileNotFoundException {
 		String[] parsed = command.toLowerCase().split(" ");
 		String item = new String();
 		
 		if (parsed.length > 1) {
 			String temp = parsed[1].toLowerCase();
 			if (temp.equals("to") || temp.equals("at") || temp.equals("up") || temp.equals("from")) {
-				//if (parsed[2].toLowerCase().equals("dr.")) { item = parsed[3]; }
-				//else { item = parsed[2]; }
-				item = parsed[2];
+				if (parsed[2].toLowerCase().equals("dr.")) { item = parsed[3]; }
+				else { item = parsed[2]; }
 			} else { item = temp; }
 		} else { item = parsed[0]; }
 		
@@ -30,9 +35,6 @@ public class Parser {
 			player.room.enteredRoom();
 		} else if (item.toLowerCase().equals("north") || item.toLowerCase().equals("south")) {
 			actionTurn(player, parsed[0], item);
-	//	} else if (player.room.getItem(item) == null) { 
-	//		System.out.println("I don't understand, try something else.");
-	//		waitTurn(player);
 		} else {
 			actionTurn(player, parsed[0], item);
 		}
@@ -41,8 +43,9 @@ public class Parser {
 	/**
 	 * Method that conducts a turn in which no action is selected
 	 * @param player	a Player
+	 * @throws FileNotFoundException 
 	 */
-	public static void waitTurn(Player player) {
+	public static void waitTurn(Player player) throws FileNotFoundException {
 		checkWaits(player);
 		extraInfo(player.getTurns());
 		player.nextTurn();
@@ -53,8 +56,9 @@ public class Parser {
 	 * @param player	a Player
 	 * @param action	a String
 	 * @param item		a String
+	 * @throws FileNotFoundException 
 	 */
-	public static void actionTurn(Player player, String action, String item) {
+	public static void actionTurn(Player player, String action, String item) throws FileNotFoundException {
 		checkWaits(player);
 		extraInfo(player.getTurns());
 		action(player, action, item);
@@ -89,9 +93,13 @@ public class Parser {
 	 * @param currItem	an Item
 	 */
 	public static void action(Player player, String action, String item) {
-		Item currItem = player.room.getItem(item);
-		if (currItem != null) { System.out.println("item: " + currItem.title); }
+		Item currItem;
 		Inventory inventory = player.getInventory();
+		if (inventory.contains(item)) { currItem = player.room.getItem(item); }
+		else { 
+			System.out.println("That item is not in this room, try something else.");
+			return;
+		}
 		switch (action) {
 		case "go":
 			Room move = player.room.moveRoom(item);
@@ -102,8 +110,9 @@ public class Parser {
 			}
 			break;
 		case "talk":
-			inventory.talkTo(currItem);
-			if (currItem.title.equals("Lucy") || currItem.title.equals("Khan")) { player.room.south.openRoom(); }
+			if (inventory.talkTo(currItem)) {
+				if (currItem.title.equals("Lucy Evans") || currItem.title.equals("Khan")) { player.room.south.openRoom(); }
+			}
 			break;
 		case "pick":
 			inventory.pickUp(currItem);
@@ -124,21 +133,38 @@ public class Parser {
 	/**
 	 * Prints extra information for the user based on the turn number
 	 * @param turn	an integer
+	 * @throws FileNotFoundException 
 	 */
-	public static void extraInfo(int turn) {
-		// TODO
+	public static void extraInfo(int turn) throws FileNotFoundException {
+		Scanner dataIn = new Scanner(new File("data/extra.txt"));
+		
+		ArrayList<String> text = new ArrayList<>();
+		while (dataIn.hasNextLine()) {
+			String line = dataIn.nextLine();
+			text.add(line);
+		}
+		dataIn.close();
+		
 		switch(turn) {
 		case 3:
 			System.out.println();
+			System.out.println("---- " + text.get(0));
 			break;
 		case 5:
 			System.out.println();
+			System.out.println("---- " + text.get(1));
+			break;
+		case 7:
+			System.out.println();
+			System.out.println("---- " + text.get(2));
 			break;
 		case 9:
 			System.out.println();
+			System.out.println("---- " + text.get(3));
 			break;
-		case 13:
+		case 10:
 			System.out.println();
+			System.out.println("---- " + text.get(4));
 			break;
 		default:
 			break;

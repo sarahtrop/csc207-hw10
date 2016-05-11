@@ -103,8 +103,12 @@ public class Room {
 	 */
 	public Item getItem(String item) {
 		if (item.toLowerCase().equals("mala")) { item = "Dr. Mala Khan"; }
+		else if (item.toLowerCase().equals("lucy")) { item = "Lucy Evans"; }
 		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).title.toLowerCase().equals(item.toLowerCase())) { return items.get(i); }
+			if (items.get(i).title.toLowerCase().equals(item.toLowerCase())) { 
+				System.out.println(items.get(i).title);
+				return items.get(i); 
+			}
 		}
 		return null;
 	}
@@ -113,9 +117,7 @@ public class Room {
 	 * Gets the items for this room
 	 * @return
 	 */
-	public ArrayList<Item> getItems() {
-		return items;
-	}
+	public ArrayList<Item> getItems() { return items; }
 	
 	/**
 	 * Method making Rooms from parsed strings

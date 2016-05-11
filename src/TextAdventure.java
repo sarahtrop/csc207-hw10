@@ -21,6 +21,8 @@ public class TextAdventure {
 			if (player.getTurns() == 0) { player.room.enteredRoom(); }
 			
 			if (player.checkRoom("Lucy and Eliot's Guest Bedroom")) {
+				System.out.println();
+				System.out.println("=====");
 				System.out.println("You have " + player.getPoints() + " points! Do you know what happened to Eliot Crane?");
 				String answer = in.nextLine();
 				if (answer.toLowerCase().equals("yes")) {
@@ -41,7 +43,7 @@ public class TextAdventure {
 	 */
 	public static void printWelcome() {
 		System.out.println("Welcome to the aftermath of Salmon Rushdie's 'Harmony of the Spheres'. "
-				+ "Your goal is to find out what happened to Eliot Crane, the schizophrenic writer. "
+				+ "Your goal is to find out what happened to Eliot Crane. "
 				+ "You may look around the house he shared with his wife Lucy Evans, and talk to anyone you find in the house.");
 		
 		System.out.println();
