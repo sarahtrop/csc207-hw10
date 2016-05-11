@@ -27,6 +27,7 @@ public class Player {
 		room = room.buildHouse();
 		people = Person.findPeople(); // Lucy = 0, Khan = 1, Mala = 2
 		inventory = new Inventory();
+		updateInventory();
 	}
 	
 	/**

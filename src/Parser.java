@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -72,14 +73,11 @@ public class Parser {
 	public static void checkWaits(Player player) {
 		if (player.getWaits() == 2 && !player.getInventory().contains("Khan")) {
 			if (player.room.checkRoom("Lucy and Eliot's Living Room")) {
-				System.out.println("Khan and his wife Mala enter the room. Khan sits heavily in the armchair, and Mala stands behind him, watching him."
-						+ "Khan picks up the heavily earmarked book from the sidetable and begins to read."
-						+ " Mala is Khan's wife, and Eliot's ex.. something. She may have information for you. ");
+				System.out.println("Khan and his wife Mala enter the room. Khan sits heavily in the armchair, and Mala stands behind him, watching him. Khan picks up the heavily earmarked book from the sidetable and begins to read. Mala is Khan's wife, and Eliot's ex.. something. She may have information for you. ");
 				player.addToInventory(player.getPerson("Khan"));
 				player.addToInventory(player.getPerson("Mala"));
 			} else if (player.room.checkRoom("Lucy and Eliot's Bedroom") && !player.getInventory().contains("Lucy")) {
-				System.out.println("Lucy walks in from the living room and sits heavily on the bed. "
-						+ "She doesn't seem to notice you, as she twirls her wedding ring around her finger.");
+				System.out.println("Lucy walks in from the living room and sits heavily on the bed. She doesn't seem to notice you, as she twirls her wedding ring around her finger.");
 				player.addToInventory(player.getPerson("Lucy"));
 			}
 		}
@@ -93,10 +91,10 @@ public class Parser {
 	 * @param currItem	an Item
 	 */
 	public static void action(Player player, String action, String item) {
-		Item currItem;
+		Item currItem = new Item();
 		Inventory inventory = player.getInventory();
-		if (inventory.contains(item)) { currItem = player.room.getItem(item); }
-		else { 
+		if (inventory.contains(item)) { currItem = player.room.get(item); }
+		else if (!item.toLowerCase().equals("north") && !item.toLowerCase().equals("south")) {
 			System.out.println("That item is not in this room, try something else.");
 			return;
 		}
@@ -118,11 +116,11 @@ public class Parser {
 			inventory.pickUp(currItem);
 			break;
 		case "more":
-			inventory.more((Person)currItem);
+			inventory.more((Person)currItem, player);
 			player.addPoints(currItem);
 			break;
 		case "look":
-			inventory.lookAt(currItem);
+			inventory.lookAt(currItem, player);
 			break;
 		default:
 			System.out.println("Invalid command, try again");

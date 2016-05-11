@@ -96,17 +96,52 @@ public class Room {
 		return this.title.equals(title);
 	}
 	
+	/** 
+	 * Gets an item/person from inventory
+	 * @param item	a String
+	 * @return		a boolean
+	 */
+	public Item get(String item) {
+		if (checkIfPerson(item)) { return getPerson(item); }
+		else { return getItem(item); }
+	}
+	
+	/**
+	 * Checks if a string is a person or an item
+	 * @param name	a String
+	 * @return		a boolean
+	 */
+	public static boolean checkIfPerson(String name) {
+		String lower = name.toLowerCase();
+		return (lower.contains("lucy") && !lower.contains("lucy's")) ||
+				(lower.contains("eliot") && !lower.contains("eliot's")) ||
+				(lower.equals("khan"));
+	}
+	
+	/**
+	 * Gets the appropriate person from the room
+	 * @param item	a String
+	 * @return		an Person
+	 */
+	public Item getPerson(String person) {
+		if (person.toLowerCase().equals("mala")) { person = "Dr. Mala Khan"; }
+		else if (person.toLowerCase().equals("lucy")) { person = "Lucy Evans"; }
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).title.toLowerCase().equals(person.toLowerCase())) { 
+				return items.get(i); 
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Gets the appropriate item from the room
 	 * @param item	a String
 	 * @return		an Item
 	 */
 	public Item getItem(String item) {
-		if (item.toLowerCase().equals("mala")) { item = "Dr. Mala Khan"; }
-		else if (item.toLowerCase().equals("lucy")) { item = "Lucy Evans"; }
 		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).title.toLowerCase().equals(item.toLowerCase())) { 
-				System.out.println(items.get(i).title);
+			if (items.get(i).title.toLowerCase().contains(item.toLowerCase())) { 
 				return items.get(i); 
 			}
 		}

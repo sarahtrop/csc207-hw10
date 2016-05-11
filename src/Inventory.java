@@ -65,10 +65,11 @@ public class Inventory {
 	/** 
 	 * Method to "learn more" about an item or person in the adventure game
 	 */
-	public void more(Item item) {
+	public void more(Item item, Player player) {
 		if (item instanceof Person) { System.out.println(item.title + " says, " + item.more); }
 		else { System.out.println(item.more); }
 		System.out.println();
+		player.addPoints(item);
 		System.out.println("You've gained " + item.points + " points(s)!");
 	}
 	
@@ -76,10 +77,13 @@ public class Inventory {
 	/**
 	 * Method to "look at" an item in the adventure game
 	 */
-	public void lookAt(Item item) {
+	public void lookAt(Item item, Player player) {
 		if (inventory.contains(item)) {
 			System.out.println(item.desc);
-			if (item.more.equals("null")) { System.out.println("You've gained " + item.points + " point(s)!"); }
+			if (item.more.equals("null")) { 
+				player.addPoints(item);
+				System.out.println("You've gained " + item.points + " point(s)!"); 
+			}
 		} else { System.out.println("You can't do that. Try something else."); }
 	}
 }
