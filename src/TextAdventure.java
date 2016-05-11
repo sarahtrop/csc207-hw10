@@ -54,6 +54,7 @@ public class TextAdventure {
 		System.out.println("More from <person>");
 		System.out.println("Pick up <item>");
 		System.out.println("Look at <item/person>");
+		System.out.println("Use <item/person>");
 		System.out.println("Describe the room");
 		
 		System.out.println("Lets begin!");

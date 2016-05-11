@@ -96,53 +96,18 @@ public class Room {
 		return this.title.equals(title);
 	}
 	
-	/** 
-	 * Gets an item/person from inventory
-	 * @param item	a String
-	 * @return		a boolean
-	 */
-	public Item get(String item) {
-		if (checkIfPerson(item)) { return getPerson(item); }
-		else { return getItem(item); }
-	}
-	
-	/**
-	 * Checks if a string is a person or an item
-	 * @param name	a String
-	 * @return		a boolean
-	 */
-	public static boolean checkIfPerson(String name) {
-		String lower = name.toLowerCase();
-		return (lower.contains("lucy") && !lower.contains("lucy's")) ||
-				(lower.contains("eliot") && !lower.contains("eliot's")) ||
-				(lower.equals("khan"));
-	}
-	
-	/**
-	 * Gets the appropriate person from the room
-	 * @param item	a String
-	 * @return		an Person
-	 */
-	public Item getPerson(String person) {
-		if (person.toLowerCase().equals("mala")) { person = "Dr. Mala Khan"; }
-		else if (person.toLowerCase().equals("lucy")) { person = "Lucy Evans"; }
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).title.toLowerCase().equals(person.toLowerCase())) { 
-				return items.get(i); 
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * Gets the appropriate item from the room
 	 * @param item	a String
 	 * @return		an Item
 	 */
-	public Item getItem(String item) {
+	public Item get(String item) {
 		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).title.toLowerCase().contains(item.toLowerCase())) { 
-				return items.get(i); 
+			Item curr = items.get(i);
+			for (int j = 0; j < curr.lookups.size(); j++) {
+				if (curr.lookups.get(j).equals(item.toLowerCase())) { 
+					return items.get(i); 
+				}
 			}
 		}
 		return null;
@@ -191,6 +156,7 @@ public class Room {
 		
 		for (ArrayList<String> lst : itemInfo) {
 			temp = new Item(lst.get(1), lst.get(2), lst.get(3), lst.get(4), Integer.parseInt(lst.get(5)));
+			temp.addLookups();
 			switch(lst.get(0)) {
 				case "D":
 					dining.add(temp);
@@ -262,5 +228,4 @@ public class Room {
 		dataIn.close();
 		return items;
 	}
-
 }

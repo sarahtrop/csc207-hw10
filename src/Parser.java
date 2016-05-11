@@ -61,8 +61,8 @@ public class Parser {
 	 */
 	public static void actionTurn(Player player, String action, String item) throws FileNotFoundException {
 		checkWaits(player);
-		extraInfo(player.getTurns());
 		action(player, action, item);
+		extraInfo(player.getTurns());
 		player.nextTurn();
 	}
 	
@@ -91,10 +91,9 @@ public class Parser {
 	 * @param currItem	an Item
 	 */
 	public static void action(Player player, String action, String item) {
-		Item currItem = new Item();
+		Item currItem = player.room.get(item);
 		Inventory inventory = player.getInventory();
-		if (inventory.contains(item)) { currItem = player.room.get(item); }
-		else if (!item.toLowerCase().equals("north") && !item.toLowerCase().equals("south")) {
+		if (!inventory.inventory.contains(currItem) && (!item.toLowerCase().equals("north") && !item.toLowerCase().equals("south"))) {
 			System.out.println("That item is not in this room, try something else.");
 			return;
 		}
@@ -108,9 +107,8 @@ public class Parser {
 			}
 			break;
 		case "talk":
-			if (inventory.talkTo(currItem)) {
-				if (currItem.title.equals("Lucy Evans") || currItem.title.equals("Khan")) { player.room.south.openRoom(); }
-			}
+			inventory.talkTo(currItem);
+			if (currItem.title.equals("Lucy Evans") || currItem.title.equals("Khan")) { player.room.south.openRoom(); }
 			break;
 		case "pick":
 			inventory.pickUp(currItem);

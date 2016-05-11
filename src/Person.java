@@ -38,6 +38,10 @@ public class Person extends Item {
 		Person Mala = new Person(peopleInfo.get(2).get(0), peopleInfo.get(2).get(1), 
 				peopleInfo.get(2).get(2), peopleInfo.get(2).get(3), Integer.parseInt(peopleInfo.get(2).get(4))); 
 		
+		Lucy.addLookups();
+		Mala.addLookups();
+		Khan.addLookups();
+		
 		array[0] = Lucy;
 		array[1] = Khan;
 		array[2] = Mala;
@@ -66,5 +70,31 @@ public class Person extends Item {
 		}
 		dataIn.close();
 		return items;
+	}
+	
+	/**
+	 * Updates the lookups field
+	 * @param list
+	 */
+	@Override
+	public void updateLookups(ArrayList<String> list) { lookups = list; }
+	
+	/**
+	 * Method for adding possible lookups for items
+	 * @param list	an ArrayList of Items
+	 * @return		an ArrayList of Items
+	 */
+	@Override
+	public void addLookups() {
+			String title = this.title.toLowerCase();
+			ArrayList<String> lookups = new ArrayList<>();
+			lookups.add(title);
+			
+			if (title.equals("lucy evans")) { lookups.add("lucy"); }
+			else if (title.equals("dr. mala khan")) { 
+				lookups.add("mala");
+				lookups.add("mala khan");
+			}
+			this.updateLookups(lookups);
 	}
 }

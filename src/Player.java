@@ -34,7 +34,7 @@ public class Player {
 	 * Method adds the points from an item to a players total points
 	 * @param item
 	 */
-	public void addPoints(Item item) { points += item.points; }
+	public void addPoints(Item item) { points += item.totalpoints; }
 	/**
 	 * Method gets the players total points
 	 * @return

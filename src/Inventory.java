@@ -51,15 +51,9 @@ public class Inventory {
 	/**
 	 * Method to "talk to" an item or person in the adventure game
 	 */
-	public boolean talkTo(Item item) {
-		if (inventory.contains(item)) {
+	public void talkTo(Item item) {
 			if (item instanceof Person) { System.out.println(item.title + " says, " + "'" + item.effect + "'"); }
 			else { System.out.println("You've found " + item.title); }
-			return true;
-		}
-		else { 
-			return false;
-		}
 	}
 	
 	/** 
@@ -70,7 +64,7 @@ public class Inventory {
 		else { System.out.println(item.more); }
 		System.out.println();
 		player.addPoints(item);
-		System.out.println("You've gained " + item.points + " points(s)!");
+		System.out.println("You've gained " + item.totalpoints + " points(s)!");
 	}
 	
 	
@@ -82,8 +76,14 @@ public class Inventory {
 			System.out.println(item.desc);
 			if (item.more.equals("null")) { 
 				player.addPoints(item);
-				System.out.println("You've gained " + item.points + " point(s)!"); 
+				System.out.println("You've gained " + item.totalpoints + " point(s)!"); 
 			}
 		} else { System.out.println("You can't do that. Try something else."); }
+	}
+	
+	public void use(String item, Player player) {
+		Item jacket = player.room.get(item);
+		if (!jacket.title.equals("Eliot's jacket")) { System.out.println("You can't do that with this, try something else."); }
+		else { talkTo(player.room.get("Eliot's pocket knife")); }
 	}
 }
