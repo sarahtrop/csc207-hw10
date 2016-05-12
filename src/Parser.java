@@ -120,6 +120,9 @@ public class Parser {
 		case "look":
 			inventory.lookAt(currItem, player);
 			break;
+		case "use":
+			inventory.use(item, player);
+			break;
 		default:
 			System.out.println("Invalid command, try again");
 			break;

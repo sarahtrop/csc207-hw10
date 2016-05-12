@@ -14,13 +14,14 @@ public class TextAdventure {
 		boolean playing = true;
 		Player player = new Player();
 		String command = new String();
+		boolean finished = true;
 		
 		printWelcome();
 		
 		while(playing) {
 			if (player.getTurns() == 0) { player.room.enteredRoom(); }
 			
-			if (player.checkRoom("Lucy and Eliot's Guest Bedroom")) {
+			if (player.checkRoom("Lucy and Eliot's Guest Bedroom") && finished) {
 				System.out.println();
 				System.out.println("=====");
 				System.out.println("You have " + player.getPoints() + " points! Do you know what happened to Eliot Crane?");
@@ -28,12 +29,21 @@ public class TextAdventure {
 				if (answer.toLowerCase().equals("yes")) {
 					System.out.println("Good job! Maybe now someone can finish that Glendower manuscript.");
 					playing = false;
+				} else {
+					finished = false;
 				}
 			} else {
 				System.out.println(player.getTurns() + " =====");
 				command = in.nextLine();
-				player.checkWaits(command);
-				Parser.parseCommands(command, player);
+				if (command.toLowerCase().equals("done")) { 
+					System.out.println("You have " + player.getPoints() + " points!");
+					System.out.println("Good job! Maybe now someone can finish that Glendower manuscript.");
+					playing = false; 
+				}
+				else {
+					player.checkWaits(command);
+					Parser.parseCommands(command, player);
+				}
 			}
 		}
 	}
@@ -56,6 +66,7 @@ public class TextAdventure {
 		System.out.println("Look at <item/person>");
 		System.out.println("Use <item/person>");
 		System.out.println("Describe the room");
+		System.out.println("Done (when you think you know what happened to Eliot Crane)");
 		
 		System.out.println("Lets begin!");
 		System.out.println();
