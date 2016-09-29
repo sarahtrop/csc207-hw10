@@ -1,5 +1,5 @@
 # Homework 10：Text Adventure
-Homework assignment for spring 2016 session of CSC 207 at Grinnell College.
+Text Adventure game based on Salmon Rushdie's "The Harmony of the Spheres" as the final homework assignment for CSC 207: Data Structures & Object Oriented Design at Grinnell College in the Spring of 2015.
 
 written by Sarah Trop
 
